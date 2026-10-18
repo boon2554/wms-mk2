@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="purple">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WMS – ระบบบริหารภาระงานรายปีงบประมาณ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--p:#5f37bb;--ac:#f5941f;--bg:#f4f2fb;--card:#fff;--ink:#241a44;--soft:#8981a3;--line:#eae6f7;--dk:#120a2e;--r:20px;
+--deep:color-mix(in srgb,var(--p) 62%,var(--dk));--tint:color-mix(in srgb,var(--p) 10%,#fff);--tint2:color-mix(in srgb,var(--p) 22%,#fff);
+--side:linear-gradient(185deg,var(--deep),var(--p));--sidetx:#fff;--sidesoft:rgba(255,255,255,.16);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=orange]{--p:#ee7d1a;--ac:#6a3fc8;--bg:#fff7ef;--line:#f6e6d6;--ink:#3a2410;--soft:#a08a76;--dk:#4a1d00}
+:root[data-theme=white]{--p:#6b45c9;--ac:#f5941f;--bg:#fbfaff;--side:#fff;--sidetx:var(--ink);--sidesoft:var(--tint)}
+html,body{height:100%}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px 'Noto Sans Thai','Inter',sans-serif;transition:background .4s}
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100%}
+aside{background:var(--side);color:var(--sidetx);padding:22px 14px;display:flex;flex-direction:column;gap:14px;border-right:1px solid var(--line);position:sticky;top:0;height:100vh;transition:background .4s}
+.brand{display:flex;gap:10px;align-items:center;padding:4px 6px 14px;border-bottom:1px solid var(--sidesoft)}
+.crest{width:42px;height:42px;border-radius:16px;background:linear-gradient(135deg,var(--ac),var(--p));display:grid;place-items:center;font-size:20px;color:#fff;box-shadow:0 6px 14px rgba(0,0,0,.18)}
+.brand b{font:800 22px Inter;letter-spacing:.5px}.brand small{display:block;font-size:10px;opacity:.7;line-height:1.3}
+nav{display:flex;flex-direction:column;gap:4px;flex:1}
+.ni{display:flex;gap:10px;align-items:center;padding:11px 12px;border-radius:14px;cursor:pointer;font-weight:500;font-size:13px;opacity:.82;border:0;background:none;color:inherit;font-family:inherit;text-align:left;transition:.2s}
+.ni:hover{background:var(--sidesoft);opacity:1}
+.ni.on{background:var(--sidesoft);opacity:1;font-weight:700}
+:root[data-theme=white] .ni.on{color:var(--p)}
+.ni .e{width:20px;text-align:center}
+.fyBox{background:var(--sidesoft);border-radius:16px;padding:12px;font-size:11px}
+.fyBox b{display:block;font-size:13px;margin-bottom:2px}
+main{padding:20px 24px 40px;min-width:0}
+.top{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+.top h1{margin:0;font-size:20px;font-weight:800;flex:1;min-width:180px}.top h1 small{display:block;font-size:11.5px;color:var(--soft);font-weight:500}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:30px;padding:6px 8px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.pill span{font-size:11px;color:var(--soft);padding-left:6px}
+.sw{width:26px;height:26px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 1.5px var(--line);cursor:pointer;transition:.2s;padding:0}
+.sw:hover{transform:scale(1.12)}.sw.on{box-shadow:0 0 0 2.5px var(--p)}
+.sw.pu{background:linear-gradient(135deg,#7548d6,#39207e)}.sw.or{background:linear-gradient(135deg,#f8a23c,#e0690c)}.sw.wh{background:linear-gradient(135deg,#fff,#e6dcff)}
+input[type=color]{width:26px;height:26px;border:0;border-radius:50%;padding:0;background:none;cursor:pointer}
+select,input,textarea{font:inherit;color:var(--ink)}
+.sel{border:1px solid var(--line);background:var(--card);border-radius:30px;padding:8px 14px;font-size:12.5px;font-weight:600;outline:none}
+.grid{display:grid;gap:14px}
+.kpis{grid-template-columns:repeat(4,1fr);margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:0 4px 16px rgba(43,26,99,.04);transition:background .4s}
+.kpi{position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;right:-24px;top:-24px;width:86px;height:86px;border-radius:50%;background:var(--tint2);opacity:.7}
+.kpi .ic{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:var(--tint);margin-bottom:10px;font-size:17px;position:relative;z-index:1}
+.kpi .n{font-size:28px;font-weight:800;letter-spacing:-.5px;position:relative;z-index:1}.kpi .n small{font-size:12px;color:var(--soft);font-weight:500;margin-left:3px}
+.kpi .l{font-size:12px;color:var(--soft);position:relative;z-index:1}
+.kpi:nth-child(2)::after{background:color-mix(in srgb,var(--ac) 28%,#fff)}
+.kpi:nth-child(2) .ic{background:color-mix(in srgb,var(--ac) 18%,#fff)}
+.two{grid-template-columns:1.6fr 1fr;margin-bottom:14px}.two2{grid-template-columns:1fr 1fr;margin-bottom:14px}
+h3{margin:0 0 14px;font-size:14px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+h3 small{font-weight:500;color:var(--soft);font-size:11px}
+.bars{display:flex;gap:8px;align-items:flex-end;height:180px;border-bottom:1px dashed var(--line)}
+.bg{flex:1;display:flex;gap:3px;align-items:flex-end;justify-content:center;height:100%}
+.bg i{display:block;width:34%;max-width:14px;border-radius:7px 7px 2px 2px;min-height:3px;transition:height .6s cubic-bezier(.2,.8,.2,1)}
+.bl{display:flex;gap:8px;margin-top:6px}.bl span{flex:1;text-align:center;font-size:10px;color:var(--soft)}
+.lg{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:var(--soft)}.lg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.donutW{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.donut{width:150px;height:150px;border-radius:50%;position:relative;flex-shrink:0}
+.donut::after{content:attr(data-c);position:absolute;inset:26px;background:var(--card);border-radius:50%;display:grid;place-items:center;text-align:center;font-weight:800;font-size:20px;white-space:pre-line;line-height:1.2}
+.dl{flex:1;min-width:140px;display:flex;flex-direction:column;gap:7px;font-size:11.5px}.dl div{display:flex;justify-content:space-between;gap:8px}.dl i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.hb{margin-bottom:12px}.hb .t{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;font-weight:600}.hb .t span{color:var(--soft);font-weight:500}
+.track{height:10px;background:var(--tint);border-radius:10px;overflow:hidden}.track i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,var(--p),var(--ac));transition:width .6s}
+.pr{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.pr:last-child{border:0}
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--p),var(--ac));flex-shrink:0}
+.pr .w{flex:1;min-width:0;font-size:12.5px;font-weight:600}.pr .w small{display:block;color:var(--soft);font-weight:400;font-size:10.5px}
+.tag{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.hi{background:#ffe9e7;color:#d63a30}.lo{background:#e8f4ff;color:#2f72c8}.st0{background:#f0eef6;color:#8a82a3}.st1{background:#fff1dc;color:#c2700a}.st2{background:#e2f7ec;color:#17935c}.st3{background:#ffe9e7;color:#d63a30}
+.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;font-weight:600}.flow span{background:var(--tint);padding:8px 14px;border-radius:30px}.flow b{color:var(--ac)}
+.btn{border:0;border-radius:30px;padding:11px 22px;font:700 13px inherit;font-family:inherit;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--p),var(--deep));box-shadow:0 6px 16px color-mix(in srgb,var(--p) 35%,transparent);transition:.2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.s{padding:6px 13px;font-size:11px;box-shadow:none}.btn.o{background:var(--tint);color:var(--p);box-shadow:none}.btn.a{background:linear-gradient(135deg,var(--ac),color-mix(in srgb,var(--ac) 70%,#000))}
+.fg{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.fg .f{display:flex;flex-direction:column;gap:6px}.fg .full{grid-column:1/-1}
+label{font-size:12px;font-weight:700;color:var(--soft)}
+.in{border:1.5px solid var(--line);border-radius:14px;padding:11px 14px;outline:none;background:var(--card);width:100%;transition:.2s}
+.in:focus{border-color:var(--p);box-shadow:0 0 0 4px color-mix(in srgb,var(--p) 14%,transparent)}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:640px}
+th{text-align:left;font-size:11px;color:var(--soft);padding:0 10px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid var(--line);font-size:12.5px}tr:last-child td{border:0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.chip{border:1px solid var(--line);background:var(--card);border-radius:30px;padding:7px 15px;font:600 12px inherit;font-family:inherit;cursor:pointer;color:var(--soft)}.chip.on{background:var(--p);color:#fff;border-color:var(--p)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:30px;font-size:13px;font-weight:600;opacity:0;transition:.3s;z-index:9;pointer-events:none}.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:960px){.app{grid-template-columns:1fr}aside{position:static;height:auto;flex-direction:row;overflow-x:auto;padding:12px}.brand{border:0;padding:0}.brand small,.fyBox{display:none}nav{flex-direction:row;flex:none}.ni{white-space:nowrap}.kpis{grid-template-columns:repeat(2,1fr)}.two,.two2{grid-template-columns:1fr}.fg{grid-template-columns:1fr}main{padding:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="brand"><div class="crest">📊</div><div><b>WMS</b><small>Workload Management<br>System</small></div></div>
+  <nav id="nav"></nav>
+  <div class="fyBox"><b>บันทึกครั้งเดียว</b>ใช้ข้อมูลได้หลายวัตถุประสงค์<br>ปีงบประมาณเริ่ม 1 ต.ค.</div>
+</aside>
+<main>
+  <div class="top">
+    <h1 id="ttl"></h1>
+    <select class="sel" id="fy" title="ปีงบประมาณ"></select>
+    <div class="pill"><span>ธีมสี</span>
+      <button class="sw pu" data-t="purple" title="ม่วง"></button>
+      <button class="sw or" data-t="orange" title="ส้ม"></button>
+      <button class="sw wh" data-t="white" title="ขาว"></button>
+      <input type="color" id="cc" value="#5f37bb" title="เลือกสีเอง">
+    </div>
+  </div>
+  <div id="view"></div>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const MO=['ต.ค.','พ.ย.','ธ.ค.','ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.'];
+const UNITS=['สำนักงานอธิการบดี','คณะวิศวกรรมศาสตร์','คณะแพทยศาสตร์','ศูนย์ดิจิทัล','สำนักวิชาการ'];
+const TYPES=[['งานประจำ','#6b45c9'],['งานสนับสนุน','#f5941f'],['งานโครงการ','#e5a93d'],['งานบริการ','#1fa96b'],['งานประชุม','#3b7ddb'],['งานพิเศษ/ได้รับมอบหมาย','#e0577d'],['งานพัฒนาระบบ/นวัตกรรม','#20a7a7']];
+const ST=['ร่าง','ส่งตรวจสอบ','ผ่านการรับรอง','ส่งกลับแก้ไข'];
+const STAFF=[['สมชาย ใจดี','นักวิชาการ',0,'สายสนับสนุน'],['สมหญิง รักงาน','ผู้ช่วยศาสตราจารย์',1,'สายวิชาการ'],['วิชัย มั่นคง','วิศวกร',1,'สายสนับสนุน'],['นภา แสงทอง','พยาบาล',2,'สายสนับสนุน'],['ประเสริฐ ดีเลิศ','อาจารย์',2,'สายวิชาการ'],['กมล พัฒนา','นักวิเคราะห์ระบบ',3,'สายสนับสนุน'],['อรทัย สุขใจ','เจ้าหน้าที่บริหารงาน',0,'สายสนับสนุน'],['ธีรวัฒน์ เก่งกล้า','โปรแกรมเมอร์',3,'สายสนับสนุน'],['พิมพ์ชนก ศรีสุข','รองศาสตราจารย์',4,'สายวิชาการ'],['ณัฐพล วงศ์ไทย','นักวิชาการศึกษา',4,'สายสนับสนุน']];
+const TITLES=['จัดทำรายงานประจำเดือน','ประชุมคณะกรรมการ','ให้บริการผู้ใช้งาน','พัฒนาระบบสารสนเทศ','ดำเนินโครงการพัฒนา','ตรวจสอบเอกสาร','งานที่ได้รับมอบหมายพิเศษ','สนับสนุนกิจกรรมหน่วยงาน'];
+let s=7;const rnd=()=>(s=(s*9301+49297)%233280)/233280;
+const iso=(fy,m,d)=>{const c=fy-543,mm=(m+9)%12+1,y=m<3?c-1:c;return y+'-'+String(mm).padStart(2,'0')+'-'+String(d).padStart(2,'0')};
+const fyOf=d=>{const y=+d.slice(0,4),m=+d.slice(5,7);return (m>=10?y+1:y)+543};
+const mIdx=d=>(+d.slice(5,7)+2)%12;
+let R=[],id=1;
+STAFF.forEach((p,i)=>{const bias=[1.0,1.3,.9,1.1,.55,1.5,.8,1.4,.65,.7][i];
+ for(let m=0;m<12;m++){const n=2+Math.floor(rnd()*2);for(let k=0;k<n;k++){const t=Math.floor(rnd()*7);R.push({id:id++,p:i,d:iso(2569,m,3+Math.floor(rnd()*24)),t:TITLES[Math.floor(rnd()*8)],ty:t,cnt:1+Math.floor(rnd()*6),h:Math.round((2+rnd()*10)*bias*2)/2,res:'แล้วเสร็จ',st:2})}}
+ for(let k=0;k<2;k++)R.push({id:id++,p:i,d:iso(2570,0,2+Math.floor(rnd()*14)),t:TITLES[Math.floor(rnd()*8)],ty:Math.floor(rnd()*7),cnt:1+Math.floor(rnd()*4),h:Math.round((2+rnd()*8)*bias*2)/2,res:'อยู่ระหว่างดำเนินการ',st:k?1:(i%3?2:0)})});
+let view='dash',FY=2570,flt=-1;
+const $=q=>document.querySelector(q),f1=n=>(Math.round(n*10)/10).toLocaleString('th-TH');
+const NAV=[['dash','📈','Dashboard ผู้บริหาร'],['rec','📝','บันทึกภาระงาน'],['rev','✅','ตรวจสอบ / รับรอง'],['stf','👥','ข้อมูลบุคลากร'],['cat','🗂️','หมวดหมู่งาน']];
+const TT={dash:'Dashboard ผู้บริหาร',rec:'บันทึกภาระงาน',rev:'ตรวจสอบและรับรองภาระงาน',stf:'ข้อมูลบุคลากร',cat:'หมวดหมู่งานและสัดส่วน'};
+const cur=()=>R.filter(r=>fyOf(r.d)===FY);
+const sum=a=>a.reduce((x,r)=>x+r.h,0);
+const monthly=fy=>{const a=Array(12).fill(0);R.filter(r=>fyOf(r.d)===fy).forEach(r=>a[mIdx(r.d)]+=r.h);return a};
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.x);toast.x=setTimeout(()=>e.classList.remove('on'),2200)}
+function shell(){
+ $('#nav').innerHTML=NAV.map(n=>`<button class="ni ${view===n[0]?'on':''}" onclick="go('${n[0]}')"><span class="e">${n[1]}</span>${n[2]}</button>`).join('');
+ $('#ttl').innerHTML=TT[view]+`<small>ปีงบประมาณ ${FY} · ต.ค. ${FY-544} – ก.ย. ${FY-543}</small>`;
+ $('#fy').innerHTML=[2569,2570].map(y=>`<option ${y===FY?'selected':''} value="${y}">ปีงบประมาณ ${y}</option>`).join('');
+}
+function go(v){view=v;draw()}
+function draw(){shell();$('#view').innerHTML=({dash,rec,rev,stf,cat})[view]()}
+function dash(){
+ const a=cur(),tot=sum(a),ok=a.filter(r=>r.st===2).length,pend=a.filter(r=>r.st===1).length;
+ const m69=monthly(2569),m70=monthly(2570),mx=Math.max(...m69,...m70,1);
+ const perP=STAFF.map((p,i)=>({i,h:sum(a.filter(r=>r.p===i))}));const avg=tot/STAFF.length;
+ const sorted=[...perP].sort((x,y)=>y.h-x.h);
+ const byU=UNITS.map((u,k)=>({u,h:sum(a.filter(r=>STAFF[r.p][2]===k))}));const mu=Math.max(...byU.map(x=>x.h),1);
+ return `<div class="grid kpis">
+ <div class="card kpi"><div class="ic">⏱️</div><div class="n">${f1(tot)}<small>ชม.</small></div><div class="l">ชั่วโมงทำงานรวม</div></div>
+ <div class="card kpi"><div class="ic">🧾</div><div class="n">${a.length}<small>รายการ</small></div><div class="l">รายการภาระงาน</div></div>
+ <div class="card kpi"><div class="ic">🏅</div><div class="n">${a.length?Math.round(ok/a.length*100):0}<small>%</small></div><div class="l">ผ่านการรับรอง (${ok} รายการ)</div></div>
+ <div class="card kpi"><div class="ic">⏳</div><div class="n">${pend}<small>รายการ</small></div><div class="l">รอหัวหน้าตรวจสอบ</div></div></div>
+ <div class="grid two"><div class="card"><h3>แนวโน้มภาระงานรายเดือน <small>ปีงบประมาณ 2569 เทียบ 2570 (ชั่วโมง)</small></h3>
+ <div class="bars">${MO.map((_,i)=>`<div class="bg"><i style="height:${m69[i]/mx*100}%;background:var(--p)"></i><i style="height:${m70[i]/mx*100}%;background:var(--ac)"></i></div>`).join('')}</div>
+ <div class="bl">${MO.map(x=>`<span>${x}</span>`).join('')}</div>
+ <div class="lg"><span><i style="background:var(--p)"></i>ปีงบประมาณ 2569 (${f1(sum(m69.map(h=>({h}))))} ชม.)</span><span><i style="background:var(--ac)"></i>ปีงบประมาณ 2570 (${f1(sum(m70.map(h=>({h}))))} ชม.)</span></div></div>
+ <div class="card"><h3>สัดส่วนงานแต่ละประเภท</h3>${donut(a)}</div></div>
+ <div class="grid two2"><div class="card"><h3>เปรียบเทียบภาระงานแต่ละหน่วยงาน <small>ชั่วโมง</small></h3>
+ ${byU.map(x=>`<div class="hb"><div class="t">${x.u}<span>${f1(x.h)} ชม.</span></div><div class="track"><i style="width:${x.h/mu*100}%"></i></div></div>`).join('')}</div>
+ <div class="card"><h3>บุคลากรที่มีภาระงานสูง / ต่ำ <small>เฉลี่ย ${f1(avg)} ชม.</small></h3>
+ ${[...sorted.slice(0,3).map(x=>[x,'hi','สูง']),...sorted.slice(-3).reverse().map(x=>[x,'lo','ต่ำ'])].map(([x,c,l])=>`<div class="pr"><div class="av">${STAFF[x.i][0][0]}</div><div class="w">${STAFF[x.i][0]}<small>${UNITS[STAFF[x.i][2]]}</small></div><b>${f1(x.h)}</b><span class="tag ${c}">${l}</span></div>`).join('')}</div></div>
+ <div class="card"><h3>ขั้นตอนการทำงาน</h3><div class="flow"><span>บุคลากรบันทึก</span><b>→</b><span>หัวหน้าตรวจสอบ</span><b>→</b><span>ฐานข้อมูลกลาง</span><b>→</b><span>สรุปผล</span><b>→</b><span>Dashboard</span><b>→</b><span>วางแผนอัตรากำลัง</span></div></div>`;
+}
+function donut(a){
+ const by=TYPES.map((t,i)=>sum(a.filter(r=>r.ty===i))),tot=by.reduce((x,y)=>x+y,0)||1;let acc=0;
+ const g=by.map((v,i)=>{const s0=acc/tot*100;acc+=v;return `${TYPES[i][1]} ${s0}% ${acc/tot*100}%`}).join(',');
+ return `<div class="donutW"><div class="donut" style="background:conic-gradient(${g})" data-c="${f1(tot)}\nชม."></div><div class="dl">${TYPES.map((t,i)=>`<div><span><i style="background:${t[1]}"></i>${t[0]}</span><b>${Math.round(by[i]/tot*100)}%</b></div>`).join('')}</div></div>`}
+function rows(list,act){return list.map(r=>`<tr><td>${r.d.split('-').reverse().join('/')}</td><td><b>${STAFF[r.p][0]}</b></td><td>${r.t}</td><td>${TYPES[r.ty][0]}</td><td>${r.cnt}</td><td>${r.h}</td><td><span class="tag st${r.st}">${ST[r.st]}</span></td>${act?`<td>${act(r)}</td>`:''}</tr>`).join('')||`<tr><td colspan="8" style="text-align:center;color:var(--soft);padding:26px">ไม่มีรายการ</td></tr>`}
+const TH='<th>วันที่</th><th>ผู้ปฏิบัติงาน</th><th>รายการงาน</th><th>ประเภท</th><th>ครั้ง</th><th>ชม.</th><th>สถานะ</th>';
+function rec(){
+ const today=new Date().toISOString().slice(0,10);
+ return `<div class="card" style="margin-bottom:14px"><h3>บันทึกภาระงานใหม่ <small>ระบบกำหนดปีงบประมาณอัตโนมัติจากวันที่</small></h3><div class="fg">
+ <div class="f"><label>ผู้ปฏิบัติงาน</label><select class="in" id="fp">${STAFF.map((p,i)=>`<option value="${i}">${p[0]} – ${p[1]}</option>`).join('')}</select></div>
+ <div class="f"><label>วันที่ปฏิบัติงาน</label><input class="in" type="date" id="fd" value="${today}"></div>
+ <div class="f"><label>รายการงาน</label><input class="in" id="ft" placeholder="เช่น จัดทำรายงานประจำเดือน"></div>
+ <div class="f"><label>ประเภทงาน</label><select class="in" id="fty">${TYPES.map((t,i)=>`<option value="${i}">${t[0]}</option>`).join('')}</select></div>
+ <div class="f"><label>จำนวนครั้ง</label><input class="in" type="number" min="1" value="1" id="fc"></div>
+ <div class="f"><label>ระยะเวลา (ชั่วโมง)</label><input class="in" type="number" min="0.5" step="0.5" value="2" id="fh"></div>
+ <div class="f full"><label>รายละเอียด / ผลลัพธ์ของงาน</label><textarea class="in" rows="2" id="fr" placeholder="อธิบายงานและผลลัพธ์"></textarea></div>
+ <div class="f full"><label>เอกสารหลักฐาน (ชื่อไฟล์หรือลิงก์)</label><input class="in" id="fa" placeholder="เช่น รายงาน.pdf"></div></div>
+ <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap"><button class="btn o" onclick="add(0)">บันทึกร่าง</button><button class="btn" onclick="add(1)">ส่งตรวจสอบ</button></div></div>
+ <div class="card"><h3>รายการล่าสุด</h3><div class="tw"><table><thead><tr>${TH}</tr></thead><tbody>${rows([...cur()].sort((a,b)=>b.d.localeCompare(a.d)||b.id-a.id).slice(0,8))}</tbody></table></div></div>`}
+function add(st){
+ const t=$('#ft').value.trim(),d=$('#fd').value;if(!t||!d)return toast('กรุณากรอกรายการงานและวันที่');
+ R.push({id:id++,p:+$('#fp').value,d,t,ty:+$('#fty').value,cnt:+$('#fc').value||1,h:+$('#fh').value||0,res:$('#fr').value,st});
+ FY=fyOf(d);toast(st?'ส่งตรวจสอบเรียบร้อย ✓':'บันทึกร่างเรียบร้อย ✓');draw()}
+function rev(){
+ const L=cur().filter(r=>flt<0||r.st===flt).sort((a,b)=>b.d.localeCompare(a.d));
+ return `<div class="card"><div class="chips">${[['ทั้งหมด',-1],...ST.map((x,i)=>[x,i])].map(([n,v])=>`<button class="chip ${flt===v?'on':''}" onclick="flt=${v};draw()">${n}</button>`).join('')}</div>
+ <div class="tw"><table><thead><tr>${TH}<th>ดำเนินการ</th></tr></thead><tbody>${rows(L.slice(0,40),r=>r.st===1?`<button class="btn s" onclick="setSt(${r.id},2)">รับรอง</button> <button class="btn s a" onclick="setSt(${r.id},3)">ส่งกลับ</button>`:r.st===0||r.st===3?`<button class="btn s o" onclick="setSt(${r.id},1)">ส่งตรวจสอบ</button>`:'—')}</tbody></table></div></div>`}
+function setSt(i,v){R.find(r=>r.id===i).st=v;toast(['','ส่งตรวจสอบแล้ว','รับรองภาระงานแล้ว ✓','ส่งกลับให้แก้ไขแล้ว'][v]);draw()}
+function stf(){const a=cur();
+ return `<div class="card"><h3>ข้อมูลบุคลากรและภาระงานรวม <small>ปีงบประมาณ ${FY}</small></h3><div class="tw"><table><thead><tr><th>ชื่อ–สกุล</th><th>ตำแหน่ง</th><th>หน่วยงาน</th><th>ประเภทบุคลากร</th><th>ปีงบประมาณ</th><th>รายการ</th><th>ชั่วโมงรวม</th></tr></thead><tbody>${STAFF.map((p,i)=>{const x=a.filter(r=>r.p===i);return `<tr><td><div style="display:flex;gap:10px;align-items:center"><div class="av">${p[0][0]}</div><b>${p[0]}</b></div></td><td>${p[1]}</td><td>${UNITS[p[2]]}</td><td>${p[3]}</td><td>${FY}</td><td>${x.length}</td><td><b>${f1(sum(x))}</b></td></tr>`}).join('')}</tbody></table></div></div>`}
+function cat(){const a=cur(),tot=sum(a)||1;
+ return `<div class="grid two2"><div class="card"><h3>สัดส่วนตามหมวดหมู่</h3>${donut(a)}</div><div class="card"><h3>ชั่วโมงรวมแต่ละหมวด</h3>${TYPES.map((t,i)=>{const h=sum(a.filter(r=>r.ty===i));return `<div class="hb"><div class="t"><span style="color:var(--ink)"><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${t[1]};margin-right:6px"></i>${t[0]}</span><span>${f1(h)} ชม. · ${a.filter(r=>r.ty===i).length} รายการ</span></div><div class="track"><i style="width:${h/tot*100*2.2}%;max-width:100%"></i></div></div>`}).join('')}</div></div>`}
+/* theme */
+function theme(t,c){const r=document.documentElement;r.dataset.theme=t==='custom'?'purple':t;r.style.removeProperty('--p');
+ if(t==='custom'&&c)r.style.setProperty('--p',c);
+ document.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+ try{localStorage.setItem('wms-theme',JSON.stringify({t,c}))}catch(e){}}
+document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>theme(b.dataset.t));
+$('#cc').oninput=e=>theme('custom',e.target.value);
+$('#fy').onchange=e=>{FY=+e.target.value;draw()};
+try{const v=JSON.parse(localStorage.getItem('wms-theme')||'null');if(v)theme(v.t,v.c);else theme('purple')}catch(e){theme('purple')}
+draw();
+</script>
+</body>
+</html>
